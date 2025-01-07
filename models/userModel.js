@@ -38,7 +38,7 @@ UserSchema.methods.matchPassword = async function (password) {
 
 // Generate JWT
 UserSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    return jwt.sign({ id: this._id }, "anjuchat", { expiresIn: '1d' });
 };
 
 const User = mongoose.model('User', UserSchema);

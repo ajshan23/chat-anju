@@ -50,6 +50,9 @@ export const loginUser = async (req, res) => {
 
 export const getCurrentUser = async (req, res) => {
     try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
         const user = await User.findById(req.user.id).select('-password');
         res.status(200).json(user);
     } catch (error) {

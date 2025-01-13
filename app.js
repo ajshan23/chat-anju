@@ -14,7 +14,13 @@ app.use(express.json());
 
 
 const server = http.createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+})
 
 const myCache = new NodeCache();
 //userid:socketid
@@ -32,10 +38,10 @@ io.on("connect", (socket) => {
 
     io.emit("onlineUsers", myCache.keys())
 
-    io.on("disconnect", () => {
+    io.on("disconnect", async () => {
         console.log("disconnected")
-        myCache.del(userId);
-        io.emit("onlineUsers", myCache.keys())
+        await myCache.del(userId);
+        io.emit("onlineUsers", await myCache.keys())
     })
 })
 export const getOnlineUserSocketIdByUserId = async (id) => {

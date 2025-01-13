@@ -56,7 +56,7 @@ export const getMessagesOfAConversation = async (req, res) => {
         }
 
         const conversation = await Message.find({ conversationId: conversationId });
-        res.status(200).json({ message: "success", messages: conversation,conversationId });
+        res.status(200).json({ message: "success", messages: conversation, conversationId });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Server Error" });
@@ -86,11 +86,13 @@ export const sendMessage = async (req, res) => {
         conversation.lastMessage = newMessage._id;
         await conversation.save();
         await newMessage.save();
-        const recieverSocketId = getOnlineUserSocketIdByUserId(recieverId);
+        const recieverSocketId = await getOnlineUserSocketIdByUserId(recieverId);
+        console.log("onlineusers", recieverId, recieverSocketId);
+
         if (recieverSocketId) {
             io.to(recieverSocketId).emit('newMessage', newMessage)
         }
-        res.status(201).json({ message: "Message sent successfully", conversationId: conversation._id ,newMessage});
+        res.status(201).json({ message: "Message sent successfully", conversationId: conversation._id, newMessage });
 
 
     } catch (error) {

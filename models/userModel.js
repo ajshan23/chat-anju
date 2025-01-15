@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String,
+        default: "https://www.aljazeera.com/wp-content/uploads/2015/05/d328c19841dc4961817f9f460478caa0_18.jpeg?resize=1200%2C675"
+    }
 
 }, { timestamps: true });
 

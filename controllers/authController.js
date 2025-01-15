@@ -59,3 +59,20 @@ export const getCurrentUser = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
+
+export const uploadImageFunction = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+        if (!req.file) {
+            res.status(400).json({ message: "No file provided" });
+            return;
+        }
+        
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+

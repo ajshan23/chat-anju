@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter)
 app.use("/api/chat", chatRouter)
 connectDb().then(() => {
-    server.listen(5000, () => {
+    server.listen(5001, () => {
         console.log("Server is running on port 5000");
     })
 })
